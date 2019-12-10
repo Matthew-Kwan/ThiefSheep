@@ -1,2 +1,2 @@
-# ThiefSheep
+# Thief Sheep
 Repository for Thief Sheep

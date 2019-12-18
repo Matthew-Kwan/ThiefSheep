@@ -1,9 +1,12 @@
 
 var myGamePiece;
+var myGameB;
 
 function startGame() {
     myGameArea.start();
     myGamePiece = new component(30, 30, "red", 10, 120);
+    myGameB = new component(30, 30, "blue", 11, 120);
+
 }
 
 var myGameArea = {
@@ -49,9 +52,14 @@ function component(width, height, color, x, y) {
 }
 
 function updateGameArea() {
+
+
     myGameArea.clear();
     myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;    
+    myGamePiece.speedY = 0;
+    myGameB.speedX =0;
+    myGameB.speedY= 0;
+
     if (myGameArea.keys && myGameArea.keys[32]) 
         {myGamePiece.color = 'blue';
         myGamePiece.update()}
@@ -59,6 +67,28 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
+
+    if (myGameArea.keys && myGameArea.keys[82]) 
+        {myGameB.color = 'red';
+        myGameB.update()}
+    if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
+    if (myGameArea.keys && myGameArea.keys[68]) {myGameB.speedX = 1; }
+    if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
+    if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
+
+
+    // if (myGameB.keys && myGameB.keys[32]) 
+    //     {myGameB.color = 'blue';
+    //     myGameB.update();}
+
+   
+    
+    myGameB.newPos(); 
+    myGameB.update();
+
     myGamePiece.newPos();    
+
     myGamePiece.update();
+
+    
 }

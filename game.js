@@ -16,16 +16,8 @@ var myGameArea = {
         this.canvas.height = 270;
 
         this.context = this.canvas.getContext("2d");
-<<<<<<< HEAD
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.startIntervalId = setInterval(startGameArea, 20);
-=======
-        // document.body.childNodes[0].appendChild(this.canvas) 
         document.getElementById('gameCanvas').appendChild(this.canvas)
-        // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-
-        this.interval = setInterval(updateGameArea, 20);
->>>>>>> f32e60864c6eef65cbaa129b91aaf2c6cc69a4c7
+        this.startIntervalId = setInterval(startGameArea, 20);
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
             myGameArea.keys[e.keyCode] = (e.type == "keydown");

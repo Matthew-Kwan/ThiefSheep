@@ -9,11 +9,16 @@ function startGame() {
 
 }
 
+// variables to define width and height of the canvas 
+var canvasWidth = 480;
+var canvasHeight = 270;
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight; 
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -31,13 +36,15 @@ var myGameArea = {
     }
 }
 
+// Note, the x,y position of each of the components is referenced by the top left corner 
+
 function component(width, height, color, x, y) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
     this.speedY = 0;    
-    this.x = x;
+    this.x = x; 
     this.y = y;    
     this.color = color;
     this.update = function() {
@@ -46,10 +53,22 @@ function component(width, height, color, x, y) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;        
+
+        newX = this.x + this.speedX;
+        newY = this.y + this.speedY;    
+
+        // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
+            this.x = newX;
+        }
+        
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
+            this.y = newY;
+        }        
     }    
-}
+} 
+
+
 
 function updateGameArea() {
 
@@ -63,10 +82,10 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[32]) 
         {myGamePiece.color = 'blue';
         myGamePiece.update()}
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -2; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 2; }
 
     if (myGameArea.keys && myGameArea.keys[82]) 
         {myGameB.color = 'red';
@@ -82,12 +101,11 @@ function updateGameArea() {
     //     myGameB.update();}
 
    
-    
+    // Call functions to update positions of game pieces 
     myGameB.newPos(); 
     myGameB.update();
 
     myGamePiece.newPos();    
-
     myGamePiece.update();
 
     

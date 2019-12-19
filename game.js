@@ -64,26 +64,24 @@ function updateGameArea() {
     myGameB.speedX =0;
     myGameB.speedY= 0;
 
-    if (myGameArea.keys && myGameArea.keys[32]) 
-        {myGamePiece.color = 'blue';
-        myGamePiece.update()}
+    if (myGameArea.keys && myGameArea.keys[32]) {myGamePiece.color = 'blue'}
+        else{
+            myGamePiece.color='red'
+        }
+
+
+
     if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
 
     if (myGameArea.keys && myGameArea.keys[82]) 
-        {myGameB.color = 'red';
-        myGameB.update()}
+        {myGameB.color = 'red'}
     if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[68]) {myGameB.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
-
-
-    // if (myGameB.keys && myGameB.keys[32]) 
-    //     {myGameB.color = 'blue';
-    //     myGameB.update();}
 
    
     
@@ -91,7 +89,6 @@ function updateGameArea() {
     myGameB.update();
 
     myGamePiece.newPos();    
-
     myGamePiece.update();
 
     

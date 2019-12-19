@@ -1,14 +1,22 @@
-.gamebox{
+.gameCanvas{
 	background-color: tomato;
 	height: 500px;
+	margin-top: 50px;
 }
-
+.gamebox{
+	margin-top: 50px;
+}
 #farmer{
 	background-color: skyblue;
 	height: 100px;
 	width: 50px;
 }
-
+.title{
+	margin-top: 50px;
+	font-weight: 200px;
+	font-size: 30px;
+	font-family: sans-serif;
+}
 canvas {
     border:1px solid #d3d3d3;
 	width: 80%;

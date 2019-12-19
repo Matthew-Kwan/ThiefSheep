@@ -21,9 +21,8 @@ var myGameArea = {
         this.canvas.height = canvasHeight;
 
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.startIntervalId = setInterval(startGameArea, 20);
-
+        document.getElementById('gameCanvas').appendChild(this.canvas)
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
@@ -102,26 +101,30 @@ function updateGameArea() {
     myGameB.speedX =0;
     myGameB.speedY= 0;
 
-    if (myGameArea.keys && myGameArea.keys[32])
-        {myGamePiece.color = 'blue';
-        myGamePiece.update()}
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -2; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 2; }
 
-    if (myGameArea.keys && myGameArea.keys[82])
-        {myGameB.color = 'red';
-        myGameB.update()}
+    if (myGameArea.keys && myGameArea.keys[32]) {myGamePiece.color = 'blue'}
+        else{
+            myGamePiece.color='red'
+        }
+
+
+
+
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
+
+
+
     if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[68]) {myGameB.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
 
 
-    // if (myGameB.keys && myGameB.keys[32])
-    //     {myGameB.color = 'blue';
-    //     myGameB.update();}
+
+
 
    
     // Call functions to update positions of game pieces 

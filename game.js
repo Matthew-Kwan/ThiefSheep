@@ -15,7 +15,14 @@ var myGameArea = {
         this.canvas.width = 480;
         this.canvas.height = 270;
 
-        this.context = this.canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
+        // this.canvas.getContext('2d').fillText('rsersre', this.canvas.width/2,this.canvas.height/2-30);
+        this.ctx.font = "30px Comic Sans MS";
+        this.ctx.fillStyle = "red";
+        this.ctx.textAlign = "center";
+        // this.ctx.fillText("Thief Sheep", this.canvas.width/2, this.canvas.height/2-30);
+        this.ctx.fillText("Press enter to start", this.canvas.width/2, this.canvas.height/2);
+
         this.startIntervalId = setInterval(startGameArea, 20);
         document.getElementById('gameCanvas').appendChild(this.canvas)
 
@@ -39,7 +46,7 @@ var myGameArea = {
 
     },
     clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
@@ -53,7 +60,7 @@ function component(width, height, color, x, y) {
     this.y = y;
     this.color = color;
     this.update = function() {
-        ctx = myGameArea.context;
+        ctx = myGameArea.ctx;
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -65,7 +72,7 @@ function component(width, height, color, x, y) {
 
 function startGameArea() {
 
-    myGameArea.clear();
+    // myGameArea.clear();
 
     if (myGameArea.keys && myGameArea.keys[13]) {
       clearInterval(myGameArea.startIntervalId);

@@ -1,4 +1,3 @@
-
 var myGamePiece;
 var myGameB;
 var FakeSheeps; 
@@ -38,8 +37,6 @@ function startGame() {
         FakeSheeps.push(new fakeSheep(30,30,"yellow",rand_x,rand_y));
     }
 }
-
-
 
 
 
@@ -161,6 +158,11 @@ function startGameArea() {
     }
 }
 
+function endGameArea() {
+
+    myGameArea.clear();
+}
+
 
 function updateGameArea() {
 
@@ -197,21 +199,22 @@ function updateGameArea() {
         }
 
 
-
-
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
-
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1.5; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1.5; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1.5; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1.5; }
+    // Win game if you capture
+    if (myGameArea.keys && myGameArea.keys[32]
+        && (myGamePiece.x < myGameB.x+15) && (myGamePiece.x > myGameB.x-15)
+        && (myGamePiece.y < myGameB.y+15) && (myGamePiece.y > myGameB.y-15)) {
+        clearInterval(myGameArea.mainIntervalId);
+        endGameArea();}
 
 
     if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[68]) {myGameB.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
-
-
 
 
 

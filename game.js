@@ -1,16 +1,16 @@
 var myGamePiece;
 var myGameB;
-var FakeSheeps;
+var FakeSheeps; 
 
-// variables to define width and height of the canvas
+// variables to define width and height of the canvas 
 var canvasWidth = 480;
 var canvasHeight = 270;
 
 // Number of fake sheeps
 var num_fakeSheeps = 40;
 
-// vars for random
-var rand_x;
+// vars for random 
+var rand_x; 
 var rand_y;
 
 // index for updategame
@@ -18,29 +18,26 @@ var index = 0;
 
 function startGame() {
 
-	// Random x and y
-	rand_x1 = Math.floor(Math.random() * (canvasWidth-30));
-    rand_y1 = Math.floor(Math.random() * (canvasHeight-30));
+	// Random x and y 
+	rand_x1 = Math.floor(Math.random() * (canvasWidth-30)); 
+    rand_y1 = Math.floor(Math.random() * (canvasHeight-30));	
 
-    rand_x2 = Math.floor(Math.random() * (canvasWidth-30));
-    rand_y2 = Math.floor(Math.random() * (canvasHeight-30));
+    rand_x2 = Math.floor(Math.random() * (canvasWidth-30)); 
+    rand_y2 = Math.floor(Math.random() * (canvasHeight-30));	
 
     myGameArea.prestart();
-    myGamePiece = new component(30, 30, "red", rand_x1, rand_y1);
-    myGameB = new component(30, 30, "blue", rand_x2, rand_y2);
+    myGamePiece = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-1.png", rand_x1, rand_y1, 'image');
+    myGameB = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-2.png", rand_x2, rand_y2, 'image');
     FakeSheeps = [];
 
     for (i = 0; i < num_fakeSheeps ; i++) {
-        rand_x = Math.floor(Math.random() * (canvasWidth-30));
+        rand_x = Math.floor(Math.random() * (canvasWidth-30)); 
         rand_y = Math.floor(Math.random() * (canvasHeight-30));
 
-        FakeSheeps.push(new fakeSheep(30,30,"yellow",rand_x,rand_y));
+        FakeSheeps.push(new fakeSheep(30,30,"/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-2.png",rand_x,rand_y,'image'));
     }
 }
 
-// variables to define width and height of the canvas
-var canvasWidth = 800;
-var canvasHeight = 350;
 
 
 var myGameArea = {
@@ -85,68 +82,94 @@ var myGameArea = {
     }
 }
 
-// Note, the x,y position of each of the components is referenced by the top left corner
+// Note, the x,y position of each of the components is referenced by the top left corner 
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, type) {
+	this.type = type;
+	if (type == "image") {
+	  this.image = new Image();
+	  this.image.src = color;
+	}
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
+    this.speedY = 0;    
+    this.x = x; 
+    this.y = y;    
     this.color = color;
     this.update = function() {
         ctx = myGameArea.ctx;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (type == "image") {
+      		ctx.drawImage(this.image,
+        		this.x,
+        		this.y,
+        		this.width, this.height);
+    }   else {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
     this.newPos = function() {
 
 
         newX = this.x + this.speedX;
-        newY = this.y + this.speedY;
+        newY = this.y + this.speedY;    
 
         // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
-        if ((newX >= 0) && (newX + this.height <= canvasWidth)) {
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
             this.x = newX;
         }
-
-        if ((newY >= 0) && (newY + this.height <= canvasHeight))  {
+        
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
             this.y = newY;
-        }
-    }
-}
+        }        
+    }    
+} 
 
-// object for fake sheeps
-function fakeSheep(width,height, color, x, y) {
+// object for fake sheeps 
+function fakeSheep(width,height, color, x, y, type) {
+	this.type = type;
+	if (type == "image") {
+	  this.image = new Image();
+	  this.image.src = color;
+	} 
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
+    this.speedY = 0;    
+    this.x = x; 
+    this.y = y;    
     this.color = color;
     this.update = function() {
         ctx = myGameArea.ctx;
+
+        if (type == "image") {
+      		ctx.drawImage(this.image,
+        		this.x,
+        		this.y,
+        		this.width, this.height);
+    }   else {
+
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    	}
     }
     this.newPos = function() {
 
         newX = this.x + this.speedX;
-        newY = this.y + this.speedY;
+        newY = this.y + this.speedY;    
 
         // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
-        if ((newX >= 0) && (newX + this.height <= canvasWidth)) {
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
             this.x = newX;
         }
-
-        if ((newY >= 0) && (newY + this.height <= canvasHeight))  {
+        
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
             this.y = newY;
-        }
-    }
+        }        
+    }    
 }
 
 
@@ -176,7 +199,7 @@ function updateGameArea() {
     myGameB.speedX =0;
     myGameB.speedY= 0;
 
-    // Loop through elements in FakeSheeps list
+    // Loop through elements in FakeSheeps list 
     for (robot_ind = 0; robot_ind < num_fakeSheeps; robot_ind++) {
 
         robot = FakeSheeps[robot_ind];
@@ -190,7 +213,7 @@ function updateGameArea() {
 	        robot.speedY = 1*((Math.floor(Math.random() * Math.floor(3)))-1);
     	}
 
-        // Update while you're looping anyways
+        // Update while you're looping anyways 
         robot.newPos();
         robot.update();
     }
@@ -221,14 +244,12 @@ function updateGameArea() {
 
 
 
-
-
-
-    // Call functions to update positions of game pieces
-    myGameB.newPos();
+   
+    // Call functions to update positions of game pieces 
+    myGameB.newPos(); 
     myGameB.update();
 
-    myGamePiece.newPos();
+    myGamePiece.newPos();    
     myGamePiece.update();
 
     // Iterate interval

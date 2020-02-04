@@ -16,6 +16,7 @@
 }
 
 .title{
+	border: 1px solid green;
 
 	margin-top: 50px;
 	font-weight: 200px;

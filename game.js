@@ -1,4 +1,3 @@
-
 var myGamePiece;
 var myGameB;
 var FakeSheeps;
@@ -8,16 +7,27 @@ var canvasWidth = 480;
 var canvasHeight = 270;
 
 // Number of fake sheeps
-var num_fakeSheeps = 30;
+var num_fakeSheeps = 40;
 
 // vars for random
 var rand_x;
 var rand_y;
 
+// index for updategame
+var index = 0;
+
 function startGame() {
+
+	// Random x and y
+	rand_x1 = Math.floor(Math.random() * (canvasWidth-30));
+    rand_y1 = Math.floor(Math.random() * (canvasHeight-30));
+
+    rand_x2 = Math.floor(Math.random() * (canvasWidth-30));
+    rand_y2 = Math.floor(Math.random() * (canvasHeight-30));
+
     myGameArea.prestart();
-    myGamePiece = new component(30, 30, "red", 10, 120);
-    myGameB = new component(30, 30, "blue", 11, 120);
+    myGamePiece = new component(30, 30, "red", rand_x1, rand_y1);
+    myGameB = new component(30, 30, "blue", rand_x2, rand_y2);
     FakeSheeps = [];
 
     for (i = 0; i < num_fakeSheeps ; i++) {
@@ -28,9 +38,13 @@ function startGame() {
     }
 }
 
+<<<<<<< HEAD
 // variables to define width and height of the canvas
 var canvasWidth = 800;
 var canvasHeight = 350;
+=======
+
+>>>>>>> 7746b3cced4a11ec4ae91ef6f7818d07757f769a
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
@@ -58,7 +72,8 @@ var myGameArea = {
         })
     },
     start : function() {
-        myGameArea.mainIntervalId = setInterval(updateGameArea, 20);
+
+        myGameArea.mainIntervalId = setInterval(updateGameArea, 20, index);
         // window.addEventListener('keydown', function (e) {
         //     myGameArea.keys = (myGameArea.keys || []);
         //     myGameArea.keys[e.keyCode] = (e.type == "keydown");
@@ -149,6 +164,11 @@ function startGameArea() {
     }
 }
 
+function endGameArea() {
+
+    myGameArea.clear();
+}
+
 
 function updateGameArea() {
 
@@ -162,10 +182,16 @@ function updateGameArea() {
     // Loop through elements in FakeSheeps list
     for (robot_ind = 0; robot_ind < num_fakeSheeps; robot_ind++) {
 
-        robot = FakeSheeps[robot_ind]
-        // This will be random directions eventually
-        robot.speedX = 0;
-        robot.speedY = 0;
+        robot = FakeSheeps[robot_ind];
+
+        // This will be random directions eventually at intervals
+        var move = (Math.floor(Math.random() * Math.floor(10)))*10
+
+
+        if (index % move == 0) {
+	        robot.speedX = 1*((Math.floor(Math.random() * Math.floor(3)))-1);
+	        robot.speedY = 1*((Math.floor(Math.random() * Math.floor(3)))-1);
+    	}
 
         // Update while you're looping anyways
         robot.newPos();
@@ -179,13 +205,16 @@ function updateGameArea() {
         }
 
 
-
-
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
-
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1.5; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1.5; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1.5; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1.5; }
+    // Win game if you capture
+    if (myGameArea.keys && myGameArea.keys[32]
+        && (myGamePiece.x < myGameB.x+15) && (myGamePiece.x > myGameB.x-15)
+        && (myGamePiece.y < myGameB.y+15) && (myGamePiece.y > myGameB.y-15)) {
+        clearInterval(myGameArea.mainIntervalId);
+        endGameArea();}
 
 
     if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
@@ -204,6 +233,9 @@ function updateGameArea() {
 
     myGamePiece.newPos();
     myGamePiece.update();
+
+    // Iterate interval
+    index = index + 1;
 
 
 }

@@ -10,8 +10,8 @@ function startGame() {
 }
 
 // variables to define width and height of the canvas 
-var canvasWidth = 480;
-var canvasHeight = 270;
+var canvasWidth = 800;
+var canvasHeight = 350;
 
 var myGameArea = {
     canvas : document.createElement("canvas"),

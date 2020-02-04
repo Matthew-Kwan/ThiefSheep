@@ -1,17 +1,35 @@
-
 var myGamePiece;
 var myGameB;
+var FakeSheeps; 
+
+// variables to define width and height of the canvas 
+var canvasWidth = 480;
+var canvasHeight = 270;
+
+// Number of fake sheeps
+var num_fakeSheeps = 30;
+
+// vars for random 
+var rand_x; 
+var rand_y;
 
 function startGame() {
     myGameArea.prestart();
     myGamePiece = new component(30, 30, "red", 10, 120);
     myGameB = new component(30, 30, "blue", 11, 120);
+    FakeSheeps = [];
 
+    for (i = 0; i < num_fakeSheeps ; i++) {
+        rand_x = Math.floor(Math.random() * (canvasWidth-30)); 
+        rand_y = Math.floor(Math.random() * (canvasHeight-30));
+
+        FakeSheeps.push(new fakeSheep(30,30,"yellow",rand_x,rand_y));
+    }
 }
 
-// variables to define width and height of the canvas
-var canvasWidth = 480;
-var canvasHeight = 270;
+
+
+
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
@@ -20,7 +38,14 @@ var myGameArea = {
         this.canvas.width = canvasWidth;
         this.canvas.height = canvasHeight;
 
-        this.context = this.canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
+        // this.canvas.getContext('2d').fillText('rsersre', this.canvas.width/2,this.canvas.height/2-30);
+        this.ctx.font = "30px Comic Sans MS";
+        this.ctx.fillStyle = "red";
+        this.ctx.textAlign = "center";
+        // this.ctx.fillText("Thief Sheep", this.canvas.width/2, this.canvas.height/2-30);
+        this.ctx.fillText("Press enter to start", this.canvas.width/2, this.canvas.height/2);
+
         this.startIntervalId = setInterval(startGameArea, 20);
         document.getElementById('gameCanvas').appendChild(this.canvas)
         window.addEventListener('keydown', function (e) {
@@ -43,23 +68,23 @@ var myGameArea = {
 
     },
     clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
-// Note, the x,y position of each of the components is referenced by the top left corner
+// Note, the x,y position of each of the components is referenced by the top left corner 
 
 function component(width, height, color, x, y) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
+    this.speedY = 0;    
+    this.x = x; 
+    this.y = y;    
     this.color = color;
     this.update = function() {
-        ctx = myGameArea.context;
+        ctx = myGameArea.ctx;
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -67,23 +92,55 @@ function component(width, height, color, x, y) {
 
 
         newX = this.x + this.speedX;
-        newY = this.y + this.speedY;
+        newY = this.y + this.speedY;    
 
         // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
-        if ((newX >= 0) && (newX + this.height <= canvasWidth)) {
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
             this.x = newX;
         }
-
-        if ((newY >= 0) && (newY + this.height <= canvasHeight))  {
+        
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
             this.y = newY;
-        }
+        }        
+    }    
+} 
+
+// object for fake sheeps 
+function fakeSheep(width,height, color, x, y) { 
+    this.gamearea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x; 
+    this.y = y;    
+    this.color = color;
+    this.update = function() {
+        ctx = myGameArea.ctx;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
+    this.newPos = function() {
+
+        newX = this.x + this.speedX;
+        newY = this.y + this.speedY;    
+
+        // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
+            this.x = newX;
+        }
+        
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
+            this.y = newY;
+        }        
+    }    
 }
+
 
 
 function startGameArea() {
 
-    myGameArea.clear();
+    // myGameArea.clear();
 
     if (myGameArea.keys && myGameArea.keys[13]) {
       clearInterval(myGameArea.startIntervalId);
@@ -100,6 +157,19 @@ function updateGameArea() {
     myGamePiece.speedY = 0;
     myGameB.speedX =0;
     myGameB.speedY= 0;
+
+    // Loop through elements in FakeSheeps list 
+    for (robot_ind = 0; robot_ind < num_fakeSheeps; robot_ind++) {
+
+        robot = FakeSheeps[robot_ind]
+        // This will be random directions eventually
+        robot.speedX = 0;
+        robot.speedY = 0;
+
+        // Update while you're looping anyways 
+        robot.newPos();
+        robot.update();
+    }
 
 
     if (myGameArea.keys && myGameArea.keys[32]) {myGamePiece.color = 'blue'}

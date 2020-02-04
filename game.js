@@ -107,6 +107,9 @@ function updateGameArea() {
             myGamePiece.color='red'
         }
 
+
+
+
     if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
@@ -119,11 +122,16 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
 
-    // Call functions to update positions of game pieces
-    myGameB.newPos();
+
+
+
+
+   
+    // Call functions to update positions of game pieces 
+    myGameB.newPos(); 
     myGameB.update();
 
-    myGamePiece.newPos();
+    myGamePiece.newPos();    
     myGamePiece.update();
 
 

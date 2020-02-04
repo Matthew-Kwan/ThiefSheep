@@ -9,7 +9,7 @@ function startGame() {
 
 }
 
-// variables to define width and height of the canvas 
+// variables to define width and height of the canvas
 var canvasWidth = 480;
 var canvasHeight = 270;
 
@@ -47,16 +47,16 @@ var myGameArea = {
     }
 }
 
-// Note, the x,y position of each of the components is referenced by the top left corner 
+// Note, the x,y position of each of the components is referenced by the top left corner
 
 function component(width, height, color, x, y) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;    
-    this.x = x; 
-    this.y = y;    
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
     this.color = color;
     this.update = function() {
         ctx = myGameArea.context;
@@ -67,18 +67,18 @@ function component(width, height, color, x, y) {
 
 
         newX = this.x + this.speedX;
-        newY = this.y + this.speedY;    
+        newY = this.y + this.speedY;
 
         // only updated the x position of the game component if the new position is within the boundaries, based on the width of the object; same with y position
-        if ((newX >= 0) && (newX + this.height <= canvasWidth)) { 
+        if ((newX >= 0) && (newX + this.height <= canvasWidth)) {
             this.x = newX;
         }
-        
-        if ((newY >= 0) && (newY + this.height <= canvasHeight))  { 
+
+        if ((newY >= 0) && (newY + this.height <= canvasHeight))  {
             this.y = newY;
-        }        
-    }    
-} 
+        }
+    }
+}
 
 
 function startGameArea() {
@@ -107,9 +107,6 @@ function updateGameArea() {
             myGamePiece.color='red'
         }
 
-
-
-
     if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
     if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
     if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
@@ -122,16 +119,11 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
 
-
-
-
-
-   
-    // Call functions to update positions of game pieces 
-    myGameB.newPos(); 
+    // Call functions to update positions of game pieces
+    myGameB.newPos();
     myGameB.update();
 
-    myGamePiece.newPos();    
+    myGamePiece.newPos();
     myGamePiece.update();
 
 

@@ -1,5 +1,6 @@
 var myGamePiece;
 var myGameB;
+var items;
 var FakeSheeps; 
 
 // variables to define width and height of the canvas 
@@ -16,19 +17,23 @@ var rand_y;
 // index for updategame
 var index = 0;
 
+// Rand function
+function random_num(measure,obj) {
+    return Math.floor(Math.random() * (measure-obj))
+}
+
 function startGame() {
-
-	// Random x and y 
-	rand_x1 = Math.floor(Math.random() * (canvasWidth-30)); 
-    rand_y1 = Math.floor(Math.random() * (canvasHeight-30));	
-
-    rand_x2 = Math.floor(Math.random() * (canvasWidth-30)); 
-    rand_y2 = Math.floor(Math.random() * (canvasHeight-30));	
+	
 
     myGameArea.prestart();
-    myGamePiece = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-1.png", rand_x1, rand_y1, 'image');
-    myGameB = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-2.png", rand_x2, rand_y2, 'image');
+
+    // Intialize objects
+    myGamePiece = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-1.png", random_num(canvasWidth,30), random_num(canvasHeight,30), 'image');
+    myGameB = new component(30, 30, "/Users/mkayeungkwan/Documents/GitHub/ThiefSheep/resources/sheep/sheep-2.png", random_num(canvasWidth,30), random_num(canvasHeight,30), 'image');
     FakeSheeps = [];
+
+    items = [];
+    items.push(new item(15,15,"red", random_num(canvasWidth,15), random_num(canvasHeight,15),'shape'));
 
     for (i = 0; i < num_fakeSheeps ; i++) {
         rand_x = Math.floor(Math.random() * (canvasWidth-30)); 
@@ -172,6 +177,32 @@ function fakeSheep(width,height, color, x, y, type) {
     }    
 }
 
+function item(width, height,color, x, y, type) { 
+    this.type = type; 
+    if (type =="image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.gamearea = myGameArea;
+    this.width = width; 
+    this.height = height; 
+    this.x = x;
+    this.y = y; 
+    this.color = color; 
+    this.update = function() {
+        ctx = myGameArea.ctx;
+        if (type == "image") {
+            ctx.drawImage(this.image,
+                this.x,
+                this.y,
+                this.width, this.height);
+    }   else {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+}
+
 
 
 function startGameArea() {
@@ -229,12 +260,25 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1.5; }
     if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1.5; }
     if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1.5; }
-    // Win game if you capture
+
+    // Win game if you capture (Need to adjust this with items added.)
     if (myGameArea.keys && myGameArea.keys[32]
         && (myGamePiece.x < myGameB.x+15) && (myGamePiece.x > myGameB.x-15)
         && (myGamePiece.y < myGameB.y+15) && (myGamePiece.y > myGameB.y-15)) {
         clearInterval(myGameArea.mainIntervalId);
         endGameArea();}
+
+    for  (item_ind = 0; item_ind < items.length; item_ind++)
+
+        item = items[item_ind]
+
+        if (myGameArea.keys && myGameArea.keys[32]
+            && (myGamePiece.x < item.x+15) && (myGamePiece.x > item.x-15)
+            && (myGamePiece.y < item.y+15) && (myGamePiece.y > item.y-15)) {
+            
+            item.width = 0;
+            item.height = 0; 
+    }
 
 
     if (myGameArea.keys && myGameArea.keys[65]) {myGameB.speedX = -1; }
@@ -242,8 +286,10 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[87]) {myGameB.speedY = -1; }
     if (myGameArea.keys && myGameArea.keys[83]) {myGameB.speedY = 1; }
 
-
-
+    for (item_ind = 0; item_ind < items.length; item_ind++) {
+        item = items[item_ind]
+        item.update()
+    }
    
     // Call functions to update positions of game pieces 
     myGameB.newPos(); 
